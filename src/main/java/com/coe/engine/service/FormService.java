@@ -1,7 +1,9 @@
 package com.coe.engine.service;
 
+import com.coe.engine.model.BudgetNumberAmountModel;
 import com.coe.engine.model.DetailTravelRequestModel;
 import com.coe.engine.model.FormAllRequestDataModel;
+import com.coe.engine.model.FormBudgetListModel;
 import com.coe.engine.model.FormReceivedTravelRequestModel;
 import com.coe.engine.model.FormTravelRequestsModel;
 import com.coe.engine.model.TableAllRequestDataModel;
@@ -47,8 +49,13 @@ public class FormService {
         String legalLastName = form.getLegalLastName();
         String departure = form.getDeparture();
         String destination = form.getDestination();
+        String departingDate = form.getDepartingDate();
+        String returningDate = form.getReturningDate();
         String reason = form.getReason();
+        BudgetNumberAmountModel[] budgetNumberAndAmounts = form.getBudgetNumberAmountModel();
 
+        // FormBudgetListModel budgetList = new FormBudgetListModel(Id, budgetNumberAndAmount.getBudget_number(), budgetNumberAndAmount.getAmount());
+        // formRepo.insertBudgetListData(budgetList);
         String unitName = form.getFormToSubmitUnit();
         String subunitName = form.getFormToSubmitSubunit();
 
@@ -58,9 +65,13 @@ public class FormService {
 //        Date currentTime = new Timestamp(unixTime);
 //        System.out.println(unixTime);
 //        System.out.println(currentTime);
+        for (BudgetNumberAmountModel budgetNumber_amount : budgetNumberAndAmounts) {
+            FormBudgetListModel oneBudgetLine = new FormBudgetListModel(Id, budgetNumber_amount.getBudget_number(), budgetNumber_amount.getAmount());
+            formRepo.insertBudgetListData(oneBudgetLine);
+        }
 
         FormTravelRequestsModel travelRequest = new FormTravelRequestsModel(Id, type, legalFirstName, legalLastName,
-                departure, destination, reason);
+                departure, destination, departingDate, returningDate, reason);
         formRepo.insertTravelRequestData(travelRequest);
 
         FormAllRequestDataModel requestData = new FormAllRequestDataModel(Id, creatorNetId, type, unitName, subunitName, new Timestamp(unixTime), "Pending Review");
@@ -88,9 +99,14 @@ public class FormService {
             String formTypeName = getFormName(detail.getFormType());
             String createdTimePST = getCreatedTimePST(detail.getCreatedTimeUTC());
             details.add(new TableTravelRequestDetailModel(formTypeName, detail.getLegalFirstName(), detail.getLegalLastName(),
-                    detail.getDeparture(), detail.getDestination(), detail.getReason(), detail.getUnitName(), detail.getSubunitName(),
+                    detail.getDeparture(), detail.getDestination(), detail.getDepartingDate(), detail.getReturningDate(),
+                    detail.getReason(), detail.getUnitName(), detail.getSubunitName(),
                     createdTimePST, detail.getApprovalStatus(), detail.getDeclinedReason()));
         }
         return details;
+    }
+
+    public List<BudgetNumberAmountModel> getTravelBudgetDetail(String requestId) {
+        return formRepo.getTravelBudgetDetail(requestId);
     }
 }

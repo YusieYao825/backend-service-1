@@ -1,6 +1,5 @@
 package com.coe.engine.controller;
 
-import com.coe.engine.model.FormAllApprovalDataModel;
 import com.coe.engine.model.TableAllApprovalDataModel;
 import com.coe.engine.service.ApprovalService;
 import io.swagger.annotations.ApiOperation;
@@ -43,7 +42,7 @@ public class ApprovalController {
             @PathVariable("unit") String unit,
             @ApiParam(name = "subunit",
                     value = "subunit",
-                    example = "Info theory",
+                    example = "Info-theory",
                     required = true)
             @PathVariable("subunit") String subunit) {
         String[] splitSubunit = subunit.split("-");

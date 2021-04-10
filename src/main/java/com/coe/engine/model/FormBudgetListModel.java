@@ -13,8 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Data
 @Builder
-public class FormTypeDataModel {
-    private String key;
-    private String text;
-    private String value;
+public class FormBudgetListModel {
+    private String Id;
+    private String budget_number;
+    private String amount;
 }

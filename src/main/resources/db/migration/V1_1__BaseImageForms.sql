@@ -31,7 +31,18 @@ CREATE TABLE `form_travel_requests` (
     `legal_lastname` varchar(50),
     `departure` varchar(30),
     `destination` varchar(30),
+    `departing_date` varchar(20),
+    `returning_date` varchar(20),
     `reason` varchar(1005),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+DROP TABLE IF EXISTS `form_budget_list`;
+CREATE TABLE `form_budget_list` (
+    `id` int(100) unsigned NOT NULL AUTO_INCREMENT,
+    `form_id` varchar(60),
+    `budget_number` varchar(30),
+    `amount` varchar(30),
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
